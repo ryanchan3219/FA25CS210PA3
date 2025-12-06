@@ -120,7 +120,33 @@ void printPath(pair<int,int> exitcell,
 // bool dfs(……) {
 //     // Your code here
 // }
+bool dfs(vector<vector<bool>>& visited, vector<vector<int>>& maze, int row, int col,
+    vector<vector<int>>& parent_r, vector<vector<int>>& parent_c, int exit_r, int exit_c) {
+    int N = maze.size();
+    int M = maze[0].size();
 
+    if (row < 0 || row >= N || col < 0 || col >= M || maze[row][col] == 1 || visited[row][col]) {
+        return false;
+    }
+
+    visited[row][col] = true;
+
+    if (row == exit_r && col == exit_c) {
+        return true;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        int newRow = row + dr[i];
+        int newCol = col + dc[i];
+
+        if (dfs(visited, maze, newRow, newCol, parent_r, parent_c, exit_r, exit_c)) {
+            parent_r[newRow][newCol] = row;
+            parent_c[newRow][newCol] = col;
+            return true;
+        }
+    }
+    return false;
+}
 
 // ----------------------------------------------------------
 // MAIN PROGRAM (students add DFS calls and logic)
